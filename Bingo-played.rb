@@ -22,6 +22,13 @@ class HousieTicket
     finalize_rows
   end
 
+  def print
+    puts 'Generated Housie Ticket:'
+    @ticket.each do |row|
+      puts row.map { |cell| cell.to_s.rjust(2, ' ') }.join(' | ')
+    end
+  end
+
   private
 #  Picks actual numbers for each column with unique numbers
   def generate_columns
@@ -57,4 +64,26 @@ class HousieTicket
         fill_row(row, idx)
       end
   end
+# removes numbers until there are only 5 in the row
+  def trim_row(row)
+    while row.count { |cell| cell != 'X' } > 5
+      col = rand(9)
+      row[col] = 'X' unless row[col] == 'X'
+    end
+  end
+# adds missing numbers (if fewer than 5)
+  def fill_row(row, row_index)
+    while row.count { |cell| cell != 'X' } < 5
+      col = rand(9)
+      next if row[col] != 'X' || @columns[col].empty?
+
+      value = @columns[col].pop
+      row[col] = value
+    end
+  end
+
 end
+
+ticket = HousieTicket.new
+ticket.print
+
