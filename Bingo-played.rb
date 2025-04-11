@@ -17,6 +17,8 @@ class HousieTicket
     @column_counts = Array.new(9, 1)
     @columns = generate_columns
     @ticket = Array.new(3) { Array.new(9, 'X') }
+    allocate_to_rows
+    finalize_rows
   end
 
   def generate_columns
@@ -25,4 +27,19 @@ class HousieTicket
     end
   end
 
+  def allocate_to_rows
+    @columns.each_with_index do |numbers, col|
+      rows = (0..2).to_a.sample(numbers.size)
+      numbers.each_with_index do |num, i|
+        @ticket[rows[i]][col] = num
+      end
+    end
+  end
+
+  def finalize_rows
+    @ticket.each_with_index do |row, idx|
+        trim_row(row)
+        fill_row(row, idx)
+      end
+  end
 end
