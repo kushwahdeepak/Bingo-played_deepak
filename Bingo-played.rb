@@ -22,6 +22,7 @@ class HousieTicket
     finalize_rows
   end
 
+  private
 #  Picks actual numbers for each column with unique numbers
   def generate_columns
     @column_counts.map.with_index do |count, i|
